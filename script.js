@@ -1,31 +1,59 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- 1. HERO SLIDER CORE CONFIG ---
     const slides = document.querySelectorAll('.hero-slide');
     let currentSlide = 0;
-    const slideInterval = 5000; // Time frame per slide change (2 seconds)
+    const slideInterval = 5000;
 
     function nextSlide() {
-        // Remove the active class from the current slide
+        if (slides.length === 0) return;
         slides[currentSlide].classList.remove('active');
-        
-        // Calculate index rotation mapping loop
         currentSlide = (currentSlide + 1) % slides.length;
-        
-        // Inject active state rules onto the next target slide container
         slides[currentSlide].classList.add('active');
     }
 
-    // Initialize the background processing rotation track
     if (slides.length > 0) {
         setInterval(nextSlide, slideInterval);
     }
-});
-document.addEventListener('DOMContentLoaded', () => {
-    const counters = document.querySelectorAll('.stat-number');
-    const speed = 200; // The lower the number, the faster the speed animation cycle
 
-    counters.forEach(counter => {
+    // --- 2. MULTI-TARGET SCROLL REVEAL & NUMERICAL COUNTER ENGINE ---
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15
+    };
+
+    // Global active observer callback script
+    const pageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // If the targeting element is a stat element, execute counting increments
+                if (entry.target.classList.contains('stat-number')) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target); // Stop tracking stat element after loading
+                } 
+                // Else execute classic structural fade up rules
+                else {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Track standard fade-up structural panels
+    const elementsToAnimate = document.querySelectorAll(".fade-up-element");
+    elementsToAnimate.forEach(element => pageObserver.observe(element));
+
+    // Track numerical dynamic counter elements individually
+    const counters = document.querySelectorAll('.stat-number');
+    counters.forEach(counter => pageObserver.observe(counter));
+
+    // Isolated tracking method for text calculation rules
+    function animateCounter(counter) {
+        const speed = 200;
+        const target = +counter.getAttribute('data-target');
+        
         const updateCount = () => {
-            const target = +counter.getAttribute('data-target');
             const count = +counter.innerText;
             const inc = target / speed;
 
@@ -37,45 +65,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
         updateCount();
-    });
-});
-document.addEventListener("DOMContentLoaded", () => {
-    // Configuration options for the viewport intersection watcher
-    const observerOptions = {
-        root: null, // Uses the browser viewport
-        rootMargin: "0px",
-        threshold: 0.15 // Triggers when 15% of the element is visible
-    };
+    }
 
-    const animationObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Add the class to execute the CSS fade-up transition
-                entry.target.classList.add("visible");
-                // Stop tracking this element once animated to save processing overhead
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Target all declared animation hooks on the page
-    const elementsToAnimate = document.querySelectorAll(".fade-up-element");
-    elementsToAnimate.forEach(element => animationObserver.observe(element));
-});
-document.addEventListener("DOMContentLoaded", () => {
+    // --- 3. ONLINE ADMISSION FORM ACTION INTERCEPT ---
     const form = document.getElementById("whatsappAdmissionForm");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-    form.addEventListener("submit", (e) => {
-        e.preventDefault();
+            const studentName = document.getElementById("studentName").value.trim();
+            const admissionLevel = document.getElementById("admissionLevel").value;
+            const parentName = document.getElementById("parentName").value.trim();
+            const parentLocation = document.getElementById("parentLocation").value.trim();
 
-        const studentName = document.getElementById("studentName").value.trim();
-        const admissionLevel = document.getElementById("admissionLevel").value;
-        const parentName = document.getElementById("parentName").value.trim();
-        const parentLocation = document.getElementById("parentLocation").value.trim();
+            const phoneNumber = "2348135305659";
 
-        const phoneNumber = "2348135305659";
-
-        const message = 
+            const message = 
 `Hello God's Power Academy Registry,
 
 I would like to submit an online admission request for my ward. Here are the registration details:
@@ -90,36 +95,34 @@ I would like to submit an online admission request for my ward. Here are the reg
 
 Please let me know the next steps for validation and structural clearance.`;
 
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
-        window.open(whatsappUrl, '_blank');
-    });
-});
-document.addEventListener("DOMContentLoaded", () => {
+            window.open(whatsappUrl, '_blank');
+        });
+    }
+
+    // --- 4. UNDER CONSTRUCTION MODAL INTERACTION INTERFACE ---
     const constructionModal = document.getElementById("constructionModal");
     const closeConstructionBtn = document.getElementById("closeConstructionBtn");
-    
-    // Select both portal buttons in the navigation bar
     const portalButtons = document.querySelectorAll(".btn-check, .btn-portal");
 
-    // Open popup when any portal button is clicked
-    portalButtons.forEach(button => {
-        button.addEventListener("click", (e) => {
-            e.preventDefault(); // Prevent unexpected navigation or reloads
-            constructionModal.classList.add("active");
+    if (constructionModal && closeConstructionBtn) {
+        portalButtons.forEach(button => {
+            button.addEventListener("click", (e) => {
+                e.preventDefault();
+                constructionModal.classList.add("active");
+            });
         });
-    });
 
-    // Close popup when clicking the Acknowledge button
-    closeConstructionBtn.addEventListener("click", () => {
-        constructionModal.classList.remove("active");
-    });
-
-    // Close popup automatically if user clicks on the outer blurred background
-    constructionModal.addEventListener("click", (e) => {
-        if (e.target === constructionModal) {
+        closeConstructionBtn.addEventListener("click", () => {
             constructionModal.classList.remove("active");
-        }
-    });
+        });
+
+        constructionModal.addEventListener("click", (e) => {
+            if (e.target === constructionModal) {
+                constructionModal.classList.remove("active");
+            }
+        });
+    }
 });

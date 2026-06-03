@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&display=swap');
 
 /* --- 1. Global Base Resets --- */
 * {
@@ -11,10 +11,9 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: #FDFBF7;
     color: #1E293B;
-    overflow-x: hidden; /* Prevent horizontal viewport scrolling bugs entirely */
+    overflow-x: hidden;
 }
 
-/* Reusable global utility wrapper */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -30,7 +29,7 @@ body {
     background-color: #FDFBF7;
     border-bottom: 2px solid #EAE5DB;
     position: sticky;
-    top: 0; /* Corrected to anchor cleanly at the top of the viewport */
+    top: 0;
     z-index: 1000;
 }
 
@@ -120,7 +119,7 @@ body {
     width: 100%;
     height: calc(100vh - 65px);
     overflow: hidden;
-    background-color: #1A1410;
+    background-color: #FDFBF7; /* Cleaner cross-fade color floor profile */
 }
 
 .hero-slide {
@@ -136,14 +135,14 @@ body {
     align-items: center;
     padding: 0 8%;
     opacity: 0;
-    visibility: hidden;
-    transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+    pointer-events: none;
+    transition: opacity 1.2s ease-in-out;
     z-index: 1;
 }
 
 .hero-slide.active {
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
     z-index: 2;
 }
 
@@ -736,209 +735,28 @@ body {
 .learning-arms-grid .learning-card:nth-child(1) { transition-delay: 0.1s; }
 .learning-arms-grid .learning-card:nth-child(2) { transition-delay: 0.3s; }
 
-
-/* ==========================================================================
-   GLOBAL RESPONSIVE MEDIA QUERIES (Targeting All Mobile Viewports)
-   ========================================================================== */
-
-/* --- Tablet & Large Phone Interface Breakpoint --- */
-@media (max-width: 992px) {
-    .learning-arms-grid {
-        grid-template-columns: 1fr; /* Drop learning arm grid columns to single stack safely */
-        max-width: 600px;
-        margin: 0 auto;
-    }
-    
-    .card-content {
-        padding: 30px;
-    }
-
-    .about-wrapper {
-        flex-direction: column;
-        gap: 50px;
-        text-align: center;
-    }
-
-    .about-image-container {
-        max-width: 100%;
-        margin: 0 auto;
-    }
-
-    .location-badge {
-        right: 10px; /* Pull inwards cleanly to avoid viewport breakout */
-    }
-
-    .about-content {
-        max-width: 100%;
-    }
-
-    .about-content .cta-button {
-        justify-content: center;
-    }
-}
-
-/* --- Main Mobile Breakpoint (Phones, Samsung A07, iPhones) --- */
-@media (max-width: 768px) {
-    /* Navbar Structural Cleanup for Mobile Space */
-    .navbar {
-        padding: 0.8rem 5%;
-    }
-
-    .nav-menu {
-        display: none; /* Hide default links; ready for a hamburger toggle script later */
-    }
-
-    .nav-actions {
-        gap: 0.5rem;
-    }
-
-    .btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-    }
-
-    /* Fluid Typography Scaling */
-    .hero-content h1 {
-        font-size: 2.2rem; /* Drop huge title scale down to avoid text-overlapping */
-    }
-
-    .hero-content p {
-        font-size: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .hero-container {
-        height: auto;
-        min-height: calc(100vh - 60px);
-        padding: 60px 0;
-    }
-
-    .hero-slide {
-        padding: 0 5%;
-        position: relative; /* Re-flow slides for native vertical mobile scanning heights */
-        min-height: 500px;
-    }
-
-    /* Stats Strip Layout Collapse */
-    .stats-strip {
-        padding: 2.5rem 5%;
-    }
-
-    .stats-container {
-        justify-content: center;
-        gap: 1.5rem;
-    }
-
-    .stat-item {
-        min-width: 100%; /* Individual items take full width and stack clean */
-        margin-bottom: 0.5rem;
-    }
-
-    .stat-number, .stat-number-static {
-        font-size: 2.5rem;
-    }
-
-    /* Section Titles Responsive Scaling */
-    .section-title h2 {
-        font-size: 28px;
-    }
-
-    /* About Image Height Scale Adjustment */
-    .image-frame img {
-        height: 280px;
-    }
-
-    .location-badge {
-        padding: 12px 24px;
-        bottom: -15px;
-        right: -5px;
-    }
-
-    .location-badge .badge-title {
-        font-size: 18px;
-    }
-
-    .about-content h2 {
-        font-size: 26px;
-    }
-
-    /* Admissions Module Cleanup */
-    .admissions-cta-card {
-        padding: 40px 25px;
-        text-align: center;
-    }
-    
-    .cta-card-content h2 {
-        font-size: 24px;
-    }
-    
-    .cta-button-group {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .btn-cta {
-        justify-content: center;
-        width: 100%;
-    }
-
-    /* Institutional Footer Structural Re-flow */
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 35px;
-    }
-
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        gap: 10px;
-    }
-}
-
-/* --- Ultra-Small Phone Viewport Adjustment (Under 375px widths) --- */
-@media (max-width: 375px) {
-    .navbar {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-
-    .logo-text h2 {
-        font-size: 1.1rem;
-    }
-
-    .hero-content h1 {
-        font-size: 1.9rem;
-    }
-
-    .btn {
-        width: 100%;
-        justify-content: center;
-    }
-}
-/* --- Under Construction Modal --- */
+/* --- 10. Under Construction Portal Modal --- */
 .construction-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(26, 20, 16, 0.6); /* Match your warm dark overlay tint */
-    backdrop-filter: blur(5px); /* Premium frosted-glass look */
-    display: none; /* Invisible by default */
+    background-color: rgba(26, 20, 16, 0.6);
+    backdrop-filter: blur(5px);
+    display: none;
     justify-content: center;
     align-items: center;
-    z-index: 3000; /* High index to sit above everything else */
+    z-index: 3000;
     padding: 20px;
 }
 
-/* State when visible */
 .construction-overlay.active {
     display: flex;
 }
 
 .construction-card {
-    background-color: #FDFBF7; /* Cream brand color */
+    background-color: #FDFBF7;
     border-radius: 12px;
     width: 100%;
     max-width: 400px;
@@ -959,7 +777,7 @@ body {
 }
 
 .construction-card h2 {
-    color: #5C3A21; /* Academic Brown */
+    color: #5C3A21;
     font-size: 22px;
     font-weight: 700;
     margin-bottom: 12px;
@@ -972,9 +790,8 @@ body {
     margin-bottom: 25px;
 }
 
-/* Acknowledge Button */
 .btn-close-construction {
-    background-color: #0F4C81; /* Brand Blue */
+    background-color: #0F4C81;
     color: #FFFFFF;
     border: none;
     padding: 12px 28px;
@@ -988,4 +805,176 @@ body {
 .btn-close-construction:hover {
     background-color: #0A365C;
     transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   GLOBAL RESPONSIVE MEDIA QUERIES (Targeting All Mobile Viewports)
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .learning-arms-grid {
+        grid-template-columns: 1fr;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .card-content {
+        padding: 30px;
+    }
+
+    .about-wrapper {
+        flex-direction: column;
+        gap: 50px;
+        text-align: center;
+    }
+
+    .about-image-container {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .location-badge {
+        right: 10px;
+    }
+
+    .about-content {
+        max-width: 100%;
+    }
+
+    .about-content .cta-button {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 5%;
+    }
+
+    .nav-menu {
+        display: none;
+    }
+
+    .nav-actions {
+        gap: 0.5rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-container {
+        height: 70vh; /* Fixed height profile prevents layout collapse */
+        min-height: 480px;
+    }
+
+    .hero-slide {
+        position: absolute; /* OPTIMIZED: Restores uniform stacking layer rules across mobile viewports */
+        padding: 0 5%;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .stats-strip {
+        padding: 2.5rem 5%;
+    }
+
+    .stats-container {
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    .stat-item {
+        min-width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .stat-number, .stat-number-static {
+        font-size: 2.5rem;
+    }
+
+    .section-title h2 {
+        font-size: 28px;
+    }
+
+    .image-frame img {
+        height: 280px;
+    }
+
+    .location-badge {
+        padding: 12px 24px;
+        bottom: -15px;
+        right: -5px;
+    }
+
+    .location-badge .badge-title {
+        font-size: 18px;
+    }
+
+    .about-content h2 {
+        font-size: 26px;
+    }
+
+    .admissions-cta-card {
+        padding: 40px 25px;
+        text-align: center;
+    }
+    
+    .cta-card-content h2 {
+        font-size: 24px;
+    }
+    
+    .cta-button-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-cta {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .navbar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .logo-text h2 {
+        font-size: 1.1rem;
+    }
+
+    .hero-content h1 {
+        font-size: 1.9rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
