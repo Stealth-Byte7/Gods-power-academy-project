@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Form</title>
+    <style>
+        /* --- Global Reset for Testing Context --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #FDFBF7;
+        }
+
+        /* --- Online Admission Form Modal Styles --- */
+        .form-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(26, 20, 16, 0.6); /* Warm dark tint backdrop overlay */
+            backdrop-filter: blur(4px); /* Modern frosted-glass effect */
+            
+            /* CHANGED: Swapped 'none' to 'flex' so it is visible immediately during development */
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            
+            z-index: 2000; /* Stays reliably on top of the sticky navbar */
+            padding: 20px;
+            
+            /* ADDED: Allows the screen overlay to scroll vertically if the card content is longer than the viewport height */
+            overflow-y: auto; 
+        }
+
+        /* Modal Open State Wrapper Active Rule */
+        .form-modal-overlay.active {
+            display: flex;
+        }
+
+        .form-modal-card {
+            background-color: #FDFBF7; /* Cream color match */
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            position: relative;
+            margin: auto; /* ADDED: Keeps spacing uniform when structural scrolling triggers */
+            animation: modalFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .modal-header h2 {
+            color: #5C3A21; /* Academic Brown */
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            font-size: 30px;
+            color: #A39E93;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+
+        .close-modal-btn:hover {
+            color: #5C3A21;
+        }
+
+        .modal-intro {
+            font-size: 13px;
+            color: #615E58;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        /* Form Structural Inputs Layout */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #2C2520;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #EAE5DB;
+            border-radius: 6px;
+            background-color: #FFFFFF;
+            font-family: inherit;
+            font-size: 14px;
+            color: #1E293B;
+            transition: border-color 0.2s ease, outline 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #0F4C81; /* Brand Blue active border outline focus */
+            outline: none;
+        }
+
+        /* Submit Action Button */
+        .btn-submit-form {
+            width: 100%;
+            background-color: #0F4C81; /* Clear Brand Blue */
+            color: #FFFFFF;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit-form:hover {
+            background-color: #0A365C;
+            transform: translateY(-1px);
+        }
+
+        /* Responsiveness patch for small screens */
+        @media (max-width: 480px) {
+            .form-modal-overlay {
+                padding: 10px; /* Reduces outer edge screen waste on thin phones */
+            }
+            .form-modal-card {
+                padding: 25px 20px;
+            }
+            .modal-header h2 {
+                font-size: 20px;
+            }
+            .form-group {
+                margin-bottom: 15px; /* Compresses spacing for mobile keyboard comfort */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Admission Form Modal Container -->
+<div id="admissionModal" class="form-modal-overlay">
+    <div class="form-modal-card">
+        <div class="modal-header">
+            <h2>Online Admission Form</h2>
+            <button id="closeModalBtn" class="close-modal-btn">&times;</button>
+        </div>
+        <p class="modal-intro">Please fill in the student's details accurately.This will be Submitted to registration desk for validation.</p>
+        
+        <form id="whatsappAdmissionForm">
+            <!-- Student Information -->
+            <div class="form-group">
+                <label for="studentName">Full Name of Ward:</label>
+                <input type="text" id="studentName" required placeholder="God's Power">
+            </div>
+            
+            <div class="form-group">
+                <label for="admissionLevel">Target Entry Level:</label>
+                <select id="admissionLevel" required>
+                    <option value="" disabled selected>Select Level</option>
+                    <option value="Primary Foundation">Primary Foundation</option>
+                    <option value="JSS 1">Junior Secondary (JSS 1)</option>
+                    <option value="JSS 2">Junior Secondary (JSS 2)</option>
+                    <option value="JSS 3">Junior Secondary (JSS 3)</option>
+                </select>
+            </div>
+
+            <!-- Parent Information -->
+            <div class="form-group">
+                <label for="parentName">Parent / Guardian Name:</label>
+                <input type="text" id="parentName" required placeholder=" Mr/Mrs. (name)">
+            </div>
+
+            <div class="form-group">
+                <label for="parentLocation">Residential Address / Area:</label>
+                <input type="text" id="parentLocation" required placeholder="Mabolaje Area, Oyo">
+            </div>
+
+            <!-- Action Button -->
+            <button type="submit" class="btn-submit-form">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                Submit to Registration desk
+            </button>
+        </form>
+    </div>
+</div>
+ 
+</body>
+</html>
