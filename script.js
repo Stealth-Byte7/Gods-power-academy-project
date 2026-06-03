@@ -22,17 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.15
     };
 
-    // Global active observer callback script
     const pageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // If the targeting element is a stat element, execute counting increments
                 if (entry.target.classList.contains('stat-number')) {
                     animateCounter(entry.target);
-                    observer.unobserve(entry.target); // Stop tracking stat element after loading
-                } 
-                // Else execute classic structural fade up rules
-                else {
+                    observer.unobserve(entry.target);
+                } else {
                     entry.target.classList.add("visible");
                     observer.unobserve(entry.target);
                 }
@@ -40,15 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    // Track standard fade-up structural panels
     const elementsToAnimate = document.querySelectorAll(".fade-up-element");
     elementsToAnimate.forEach(element => pageObserver.observe(element));
 
-    // Track numerical dynamic counter elements individually
     const counters = document.querySelectorAll('.stat-number');
     counters.forEach(counter => pageObserver.observe(counter));
 
-    // Isolated tracking method for text calculation rules
     function animateCounter(counter) {
         const speed = 200;
         const target = +counter.getAttribute('data-target');
@@ -67,19 +60,22 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCount();
     }
 
-    // --- 3. ONLINE ADMISSION FORM ACTION INTERCEPT ---
+    // --- 3. DEDICATED STANDALONE ADMISSION FORM INTERCEPT ---
     const form = document.getElementById("whatsappAdmissionForm");
     if (form) {
         form.addEventListener("submit", (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Stop page from refreshing
 
+            // Extract input values safely
             const studentName = document.getElementById("studentName").value.trim();
             const admissionLevel = document.getElementById("admissionLevel").value;
             const parentName = document.getElementById("parentName").value.trim();
             const parentLocation = document.getElementById("parentLocation").value.trim();
 
+            // International format for your WhatsApp destination desk
             const phoneNumber = "2348135305659";
 
+            // Compile information string block
             const message = 
 `Hello God's Power Academy Registry,
 
@@ -95,9 +91,11 @@ I would like to submit an online admission request for my ward. Here are the reg
 
 Please let me know the next steps for validation and structural clearance.`;
 
+            // URL encode formatting properties smoothly
             const encodedMessage = encodeURIComponent(message);
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
+            // Open message context in a brand new tab execution vector
             window.open(whatsappUrl, '_blank');
         });
     }
